@@ -1,40 +1,49 @@
-var express = require('express');
-var mysql = require('mysql');
-var bodyParser = require("body-parser");
-var app = express();
+const express = require('express');
+const mysql = require('mysql');
+const bodyParser = require("body-parser");
+const app = express();
+const DB_PASSWORD = require('./ps');
 
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.use(express.static(__dirname +'/public'));
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(__dirname + "/public"));
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  database : 'join_us'
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: DB_PASSWORD,
+    database: 'join_us',
+    port: 3306
 });
 
-app.get("/", function(req, res){
-	// Find count of users in the database
-	// Respond with that count
-	var q = "SELECT COUNT(*) AS count FROM users";
-	connection.query(q, function(error, results){
-		if (error) throw error;
-		var count = results[0].count;
-		res.render("home", {count: count});
-	});
-});
+connection.connect((err) => {
+    if (err) {
+        throw err;
+    } else {
+        console.log("MySQL Connected!");
+    }
+})
 
-app.post("/register", function(req, res){
-	var person = {email: req.body.email};
-	var q = 'INSERT INTO users SET ?';
-	connection.query(q, person, function(error, result){
-		if (error) throw error;
-		res.redirect("/");
-	});
-	
-});
+app.get('/', (req, res) => {
+    const q = "SELECT COUNT(*) AS count FROM users";
+    connection.query(q, (error, results) => {
+        if (error) throw error;
+        const count = results[0].count;
+        res.render('home', {count: count});
+    })
+})
 
-app.listen(3000, function(){
-	console.log("Server running on 3000!");
-});
+app.post('/register', (req, res) => {
+    const person = {email: req.body.email};
+    const q = `INSERT INTO users SET ?`;
+    connection.query(q, person, (error, results) => {
+        if (error) throw error;
+        res.redirect('/');
+    })
+})
 
+const port = process.env.PORT || 8080;
+app.listen(port, (req, res) => {
+    console.log(`Serving on localhost: ${port}!`);
+})

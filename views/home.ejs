@@ -1,17 +1,20 @@
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+    <title>Join Us</title>
     <link rel="stylesheet" href="/app.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Roboto:wght@100&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
     <div class="flex-container">
-    <div class="container">
-        <h1>JOIN US</h1>
-        <p class="lead">Enter your email to join <strong><%= count %></strong> others on our waitlist. We are 100% not a cult. </p>
-        <form method="POST" action='/register'>
-            <input type="text" class="form" name="email" placeholder="Enter Your Email">
-            <button>Join Now</button>
-        </form>
+        <div class="container">
+            <h1>Join Us</h1>
+            <p class="lead">Enter your email to join <strong><%= count %></strong> others on our waitlist. We are 100% not a cult!</p>
+            <form action="/register" method="POST">
+                <input type="text" class="form" name="email" id="email" placeholder="Enter your email">
+                <button>Join Now</button>
+            </form>
+        </div>
     </div>
-</div>
 </body>

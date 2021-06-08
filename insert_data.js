@@ -1,27 +1,26 @@
-var mysql = require('mysql');
-var faker = require('faker');
+const mysql = require('mysql');
+const faker = require('faker');
+const DB_PASSWORD = require('./ps');
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  database : 'join_us'
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: DB_PASSWORD,
+    database: 'join_us',
+    port: 3306
 });
 
+// user faker to randomly generate 500+ data
+const data = [];
+for (let i = 0; i < 528; i++) {
+    const randomEmail = faker.internet.email();
+    const time = faker.date.past();
+    data.push([randomEmail, time]);
+}
 
-// Use Faker to randomly generate 500+ users 
-var data = [];
-for(var i = 0; i < 526; i++){
-	data.push([
-		faker.internet.email(),
-		faker.date.past()
-	]);
-};
-
-// INSERT the data into the database
-var q = 'INSERT INTO users (email, created_at) VALUES ?';
-connection.query(q, [data], function(error, result){
-	console.log(error);
-	console.log(result);
+const q = "INSERT INTO users (email, created_at) VALUES ?";
+connection.query(q, [data], (error, results) => {
+    if (error) throw error;
 })
 
 connection.end();
