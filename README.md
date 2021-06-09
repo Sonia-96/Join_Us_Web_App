@@ -1,3 +1,4 @@
-# Join_Us_Web_App
-一个活动报名网站，用户输入邮箱并点击网站的“Join Now”按钮即可报名该活动，然后网站将即时反馈当前的报名人数。
-![Join Us](https://github.com/Sonia-96/Join_Us_Web_App/blob/master/join_us.png)
+# Join Us Web App
+This is a website for events registration. Input your email and click "Join Now", you'll successfully register for the event. The website will record the number of users in real time.
+
+![Join Us](join_us.png)
